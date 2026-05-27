@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premier League Style 12-Team Tournament Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #0c0014; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #150020; }
+        ::-webkit-scrollbar-thumb { background: #37003c; border-radius: 10px; }
+        .scrollbar-hidden::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col">
+
+    <header class="bg-[#37003c] border-b-4 border-[#00ff87] sticky top-0 z-50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-3 py-3 flex flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <div class="bg-white p-1 rounded-lg h-9 w-9 overflow-hidden flex items-center justify-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Premier_League_Logo.svg" alt="PL" class="h-full w-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-sm font-black text-white">PREMIER <span class="text-[#00ff87]">12</span></h1>
+                    <p class="text-[8px] text-slate-300 font-bold uppercase">Tournament Hub</p>
+                </div>
+            </div>
+            <div class="flex bg-[#1a001d] p-0.5 rounded-lg border border-purple-900/40">
+                <button id="tab-fixtures-btn" onclick="switchTab('fixtures')" class="px-3 py-1.5 rounded-md text-[10px] font-bold text-[#00ff87] bg-[#37003c] shadow-lg transition-all">Fixtures</button>
+                <button id="tab-standings-btn" onclick="switchTab('standings')" class="px-3 py-1.5 rounded-md text-[10px] font-bold text-slate-400 transition-all">Standings</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-3 py-5 flex-1 w-full">
+        <div id="tab-fixtures-content" class="space-y-4">
+            <div class="bg-[#15001a] border border-purple-950 rounded-xl p-3 shadow-xl">
+                <span class="text-[10px] font-bold text-[#00ff87] uppercase mb-2 block">Matchday Selector</span>
+                <div class="flex gap-2 overflow-x-auto scrollbar-hidden pb-1" id="matchday-selector-container"></div>
+            </div>
+            <div class="flex justify-between items-center bg-[#1f0022] border-l-4 border-[#00ff87] p-3 rounded-r-xl">
+                <h2 class="text-sm font-black text-white" id="fixture-round-title">ROUND 1</h2>
+                <div class="flex gap-1">
+                    <button onclick="changeMatchday(-1)" class="w-8 h-8 bg-[#37003c] rounded-lg text-[#00ff87]"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button onclick="changeMatchday(1)" class="w-8 h-8 bg-[#37003c] rounded-lg text-[#00ff87]"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-3" id="fixtures-grid"></div>
+        </div>
+
+        <div id="tab-standings-content" class="hidden space-y-4">
+            <div class="bg-[#15001a] border border-purple-950 rounded-xl overflow-hidden text-[10px]">
+                <div class="overflow-x-auto scrollbar-hidden">
+                    <table class="w-full text-center text-[10px] md:text-xs">
+                        <thead class="bg-[#37003c]/60">
+                            <tr>
+                                <th class="py-3 px-2">#</th>
+                                <th class="py-3 text-left px-2">Club</th>
+                                <th class="py-3 px-2">MP</th>
+                                <th class="py-3 px-2">W</th>
+                                <th class="py-3 px-2">D</th>
+                                <th class="py-3 px-2">L</th>
+                                <th class="py-3 px-2">GF</th>
+                                <th class="py-3 px-2">GA</th>
+                                <th class="py-3 px-2">GD</th>
+                                <th class="py-3 px-2 text-[#00ff87]">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-table-body" class="divide-y divide-purple-950/40"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const TEAMS_LIST = [
+            { id: "MU", name: "Man United", logo: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg", telegram: "https://t.me/Afgdggcghvc", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "MC", name: "Man City", logo: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg", telegram: "https://t.me/iz_szlai", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "ARS", name: "Arsenal", logo: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg", telegram: "https://t.me/Phir_tayin", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "LIV", name: "Liverpool", logo: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg", telegram: "https://t.me/Badrul11", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "CHE", name: "Chelsea", logo: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg", telegram: "https://t.me/aungnayzan", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "TOT", name: "Tottenham", logo: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg", telegram: "https://t.me/khantt453", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "NFO", name: "Nottingham", logo: "https://upload.wikimedia.org/wikipedia/en/e/e5/Nottingham_Forest_F.C._logo.svg", telegram: "https://t.me/Doue998", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "NEW", name: "Newcastle", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Newcastle_United_Logo.svg", telegram: "https://t.me/Hemaljr10", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "AVL", name: "Aston Villa", logo: "https://upload.wikimedia.org/wikipedia/en/f/fd/Aston_Villa_F.C._logo.svg", telegram: "https://t.me/Akkkk2000", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "LEE", name: "Leeds", logo: "https://upload.wikimedia.org/wikipedia/en/5/54/Leeds_United_F.C._logo.svg", telegram: "https://t.me/jelium", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "WOL", name: "Wolves", logo: "https://upload.wikimedia.org/wikipedia/en/f/fc/Wolverhampton_Wanderers.svg", telegram: "https://t.me/DaweiBlay", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+            { id: "EVE", name: "Everton", logo: "https://upload.wikimedia.org/wikipedia/en/7/7c/Everton_FC_logo.svg", telegram: "https://t.me/waiyan2276", mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }
+        ];
+
+        let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
+        window.onload = function() { generateFixedRoundRobinFixtures(); renderMatchdaySelector(); renderFixtures(); };
+
+        function switchTab(tab) {
+            const fContent = document.getElementById('tab-fixtures-content');
+            const sContent = document.getElementById('tab-standings-content');
+            const fBtn = document.getElementById('tab-fixtures-btn');
+            const sBtn = document.getElementById('tab-standings-btn');
+
+            if (tab === 'fixtures') {
+                fContent.classList.remove('hidden');
+                sContent.classList.add('hidden');
+                fBtn.classList.add('bg-[#37003c]', 'shadow-lg', 'text-[#00ff87]');
+                sBtn.classList.remove('bg-[#37003c]', 'shadow-lg', 'text-[#00ff87]');
+                sBtn.classList.add('text-slate-400');
+            } else {
+                sContent.classList.remove('hidden');
+                fContent.classList.add('hidden');
+                sBtn.classList.add('bg-[#37003c]', 'shadow-lg', 'text-[#00ff87]');
+                fBtn.classList.remove('bg-[#37003c]', 'shadow-lg', 'text-[#00ff87]');
+                fBtn.classList.add('text-slate-400');
+                updateStandingsTable();
+            }
+        }
+
+        function generateFixedRoundRobinFixtures() {
+            const numTeams = TEAMS_LIST.length;
+            for (let round = 0; round < numTeams - 1; round++) {
+                const roundMatches = [];
+                for (let i = 0; i < numTeams / 2; i++) {
+                    const home = (round + i) % (numTeams - 1), away = (i === 0) ? numTeams - 1 : (numTeams - 1 - i + round) % (numTeams - 1);
+                    roundMatches.push({ home: TEAMS_LIST[home].id, away: TEAMS_LIST[away].id });
+                }
+                fixtures.push(roundMatches);
+            }
+        }
+
+        function renderMatchdaySelector() {
+            const container = document.getElementById('matchday-selector-container');
+            for (let r = 0; r < TOTAL_ROUNDS; r++) {
+                const btn = document.createElement('button');
+                btn.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${r === 0 ? 'bg-[#00ff87] text-[#37003c]' : 'bg-[#1a001d] text-slate-400'}`;
+                btn.innerText = `R${r + 1}`;
+                btn.onclick = () => { currentViewingMatchday = r; renderFixtures(); };
+                container.appendChild(btn);
+            }
+        }
+
+        function renderFixtures() {
+            const container = document.getElementById('fixtures-grid');
+            container.innerHTML = '';
+            document.getElementById('fixture-round-title').innerText = `ROUND ${currentViewingMatchday + 1}`;
+            fixtures[currentViewingMatchday].forEach(match => {
+                const h = TEAMS_LIST.find(t => t.id === match.home), a = TEAMS_LIST.find(t => t.id === match.away);
+                const card = document.createElement('div');
+                card.className = "bg-[#15001a] border border-purple-950 rounded-xl p-3 flex items-center justify-between";
+                card.innerHTML = `
+                    <a href="${h.telegram}" target="_blank" class="flex items-center gap-2 flex-1 min-w-0">
+                        <img src="${h.logo}" class="w-8 h-8 object-contain">
+                        <span class="text-xs font-bold hover:text-[#00ff87] truncate">${h.name}</span>
+                    </a>
+                    <span class="text-[#00ff87] font-black px-4">VS</span>
+                    <a href="${a.telegram}" target="_blank" class="flex items-center gap-2 flex-1 justify-end min-w-0">
+                        <span class="text-xs font-bold hover:text-[#00ff87] truncate">${a.name}</span>
+                        <img src="${a.logo}" class="w-8 h-8 object-contain">
+                    </a>`;
+                container.appendChild(card);
+            });
+        }
+
+        function updateStandingsTable() {
+            const tbody = document.getElementById('standings-table-body');
+            tbody.innerHTML = TEAMS_LIST.map((team, idx) => `
+                <tr class="hover:bg-purple-900/20 transition">
+                    <td class="py-3 px-2 font-bold">${idx + 1}</td>
+                    <td class="py-3 px-2 text-left">
+                        <a href="${team.telegram}" target="_blank" class="flex items-center gap-2 hover:text-[#00ff87] transition">
+                            <img src="${team.logo}" class="w-5 h-5 object-contain">
+                            <span class="font-bold">${team.name}</span>
+                        </a>
+                    </td>
+                    <td class="py-3 px-2">${team.mp}</td>
+                    <td class="py-3 px-2">${team.w}</td>
+                    <td class="py-3 px-2">${team.d}</td>
+                    <td class="py-3 px-2">${team.l}</td>
+                    <td class="py-3 px-2">${team.gf}</td>
+                    <td class="py-3 px-2">${team.ga}</td>
+                    <td class="py-3 px-2">${team.gd}</td>
+                    <td class="py-3 px-2 font-black text-[#00ff87]">${team.pts}</td>
+                </tr>
+            `).join('');
+        }
+        
+        function changeMatchday(d) {
+            let n = currentViewingMatchday + d;
+            if (n >= 0 && n < TOTAL_ROUNDS) { currentViewingMatchday = n; renderFixtures(); }
+        }
+    </script>
+</body>
+</html>
