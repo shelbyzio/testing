@@ -46,6 +46,7 @@
     <div class="space-y-12">
         <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2><div id="fixture-container" class="space-y-4"></div></div>
         <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2><div id="standings-container" class="space-y-8"></div></div>
+        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--world-gold)] mb-4 px-2 italic">Third Place Standings (Top 8 Qualify)</h2><div id="third-place-container"></div></div>
     </div>
 </main>
 
@@ -87,35 +88,15 @@
             pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); });
         });
 
-        // Round 1
         const r1 = [{h:"Argentina", a:"Australia", hS:0, aS:4}, {h:"Austria", a:"Belgium", hS:0, aS:2}, {h:"Bosnia and Herzegovina", a:"Brazil", hS:1, aS:3}, {h:"Canada", a:"Cape Verde", hS:7, aS:3}, {h:"Colombia", a:"Croatia", hS:2, aS:2}, {h:"Curaçao", a:"Czechia", hS:5, aS:4}, {h:"DR Congo", a:"Ecuador", hS:1, aS:1}, {h:"Egypt", a:"England", hS:6, aS:1}, {h:"France", a:"Germany", hS:2, aS:2}, {h:"Ghana", a:"Haiti", hS:5, aS:0}, {h:"Iran", a:"Iraq", hS:3, aS:6}, {h:"Japan", a:"Jordan", hS:8, aS:0}, {h:"Mexico", a:"Morocco", hS:4, aS:2}, {h:"Netherlands", a:"New Zealand", hS:1, aS:4}, {h:"Norway", a:"Panama", hS:0, aS:3}, {h:"Paraguay", a:"Portugal", hS:3, aS:2}, {h:"Qatar", a:"Saudi Arabia", hS:0, aS:5}, {h:"Scotland", a:"Senegal", hS:1, aS:10}, {h:"South Africa", a:"South Korea", hS:1, aS:2}, {h:"Spain", a:"Sweden", hS:2, aS:0}, {h:"Switzerland", a:"Tunisia", hS:5, aS:1}, {h:"Türkiye", a:"United States", hS:3, aS:5}, {h:"Uruguay", a:"Uzbekistan", hS:9, aS:3}, {h:"Algeria", a:"Côte d'Ivoire", hS:0, aS:10}];
         r1.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 1); if(m) { m.hS = res.hS; m.aS = res.aS; } });
-
-        // Round 2
         const r2 = [{h:"Argentina", a:"Austria", hS:1, aS:3}, {h:"Australia", a:"Belgium", hS:1, aS:3}, {h:"Bosnia and Herzegovina", a:"Canada", hS:1, aS:2}, {h:"Brazil", a:"Cape Verde", hS:4, aS:2}, {h:"Colombia", a:"Curaçao", hS:2, aS:4}, {h:"Croatia", a:"Czechia", hS:3, aS:1}, {h:"DR Congo", a:"Egypt", hS:2, aS:8}, {h:"Ecuador", a:"England", hS:5, aS:0}, {h:"France", a:"Ghana", hS:4, aS:0}, {h:"Germany", a:"Haiti", hS:0, aS:5}, {h:"Iran", a:"Japan", hS:4, aS:3}, {h:"Iraq", a:"Jordan", hS:8, aS:1}, {h:"Mexico", a:"Netherlands", hS:5, aS:6}, {h:"Morocco", a:"New Zealand", hS:3, aS:3}, {h:"Norway", a:"Paraguay", hS:0, aS:3}, {h:"Panama", a:"Portugal", hS:1, aS:2}, {h:"Qatar", a:"Scotland", hS:0, aS:3}, {h:"Saudi Arabia", a:"Senegal", hS:4, aS:4}, {h:"South Africa", a:"Spain", hS:6, aS:2}, {h:"South Korea", a:"Sweden", hS:4, aS:1}, {h:"Switzerland", a:"Türkiye", hS:3, aS:3}, {h:"Tunisia", a:"United States", hS:2, aS:3}, {h:"Uruguay", a:"Algeria", hS:3, aS:0}, {h:"Uzbekistan", a:"Côte d'Ivoire", hS:0, aS:3}];
         r2.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 2); if(m) { m.hS = res.hS; m.aS = res.aS; } });
-
-        // Round 3
         const r3 = [{h:"Argentina", a:"Belgium", hS:2, aS:3}, {h:"Australia", a:"Austria", hS:null, aS:null}, {h:"Bosnia and Herzegovina", a:"Cape Verde", hS:3, aS:2}, {h:"Brazil", a:"Canada", hS:4, aS:3}, {h:"Colombia", a:"Czechia", hS:10, aS:1}, {h:"Croatia", a:"Curaçao", hS:2, aS:1}, {h:"DR Congo", a:"England", hS:9, aS:2}, {h:"Ecuador", a:"Egypt", hS:2, aS:5}, {h:"France", a:"Haiti", hS:3, aS:0}, {h:"Germany", a:"Ghana", hS:2, aS:5}, {h:"Iran", a:"Jordan", hS:3, aS:0}, {h:"Iraq", a:"Japan", hS:3, aS:5}, {h:"Mexico", a:"New Zealand", hS:4, aS:2}, {h:"Morocco", a:"Netherlands", hS:5, aS:1}, {h:"Norway", a:"Portugal", hS:0, aS:3}, {h:"Panama", a:"Paraguay", hS:4, aS:5}, {h:"Qatar", a:"Senegal", hS:0, aS:3}, {h:"Saudi Arabia", a:"Scotland", hS:11, aS:2}, {h:"South Africa", a:"Sweden", hS:3, aS:0}, {h:"South Korea", a:"Spain", hS:3, aS:2}, {h:"Switzerland", a:"United States", hS:1, aS:5}, {h:"Tunisia", a:"Türkiye", hS:5, aS:3}, {h:"Uruguay", a:"Côte d'Ivoire", hS:4, aS:1}, {h:"Uzbekistan", a:"Algeria", hS:null, aS:null}];
         r3.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 3); if(m) { m.hS = res.hS; m.aS = res.aS; } });
         
         updateStandings();
         render();
-    }
-
-    function getScoreColor(s1, s2) {
-        if (s1 === null || s2 === null) return "";
-        if (s1 === s2) return "text-yellow-400";
-        return s1 > s2 ? "text-green-500" : "text-red-500";
-    }
-
-    function editMatch(id) {
-        const match = state.matches.find(m => m.id === id);
-        const score = prompt(`Enter score for ${match.home} vs ${match.away} (e.g. 2-1):`);
-        if (score && score.includes('-')) {
-            const [hS, aS] = score.split('-').map(Number);
-            match.hS = hS; match.aS = aS; updateStandings(); render();
-        }
     }
 
     function updateStandings() {
@@ -134,6 +115,13 @@
         });
     }
 
+    function getScoreColor(hS, aS, isHome) {
+        if (hS === null || aS === null) return "text-white";
+        if (hS === aS) return "text-yellow-400";
+        if (isHome) return hS > aS ? "text-green-500" : "text-red-500";
+        return aS > hS ? "text-green-500" : "text-red-500";
+    }
+
     function render() {
         const rdMatches = state.matches.filter(m => m.round === state.activeRound);
         let lastG = "";
@@ -141,19 +129,13 @@
             let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
             const home = state.teams.find(t => t.name === m.home);
             const away = state.teams.find(t => t.name === m.away);
-            const hColor = getScoreColor(m.hS, m.aS);
-            const aColor = getScoreColor(m.aS, m.hS);
             return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
-                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
-                   ${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
+                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}</div>
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="editMatch(${m.id})">
+                    <div class="score-box ${getScoreColor(m.hS, m.aS, true)}">${m.hS !== null ? m.hS : '-'}</div>
+                    <div class="score-box ${getScoreColor(m.hS, m.aS, false)}">${m.aS !== null ? m.aS : '-'}</div>
                 </div>
-                <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
-                    <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
-                    <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
-                </div>
-                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">
-                   ${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
-                </div>
+                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}</div>
             </div>`;
         }).join('');
 
@@ -164,15 +146,29 @@
                 <table class="w-full text-[10px] text-center min-w-[300px]">
                     <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
                     <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">
-                        <td class="text-left py-2">
-                            <div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
-                        </td>
+                        <td class="text-left py-2"><div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div></td>
                         <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
                         <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
                     </tr>`).join('')}</tbody>
                 </table>
             </div>`;
         }).join('');
+
+        const thirdPlaceTeams = G_NAMES.map(g => {
+            return state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd)[2];
+        }).filter(t => t !== undefined).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
+
+        document.getElementById('third-place-container').innerHTML = `
+            <div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/20 overflow-x-auto">
+                <table class="w-full text-[10px] text-center min-w-[300px]">
+                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>GRP</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
+                    <tbody class="divide-y divide-white/5">${thirdPlaceTeams.map((t, index) => `<tr class="h-12 ${index < 8 ? 'bg-[var(--world-gold)]/10' : ''}">
+                        <td class="text-left py-2 font-bold ${index < 8 ? 'text-[var(--world-gold)]' : ''}">${t.name} ${index < 8 ? '★' : ''}</td>
+                        <td>${t.group}</td><td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
+                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>`;
     }
 
     window.setRound = (r) => { 
@@ -181,7 +177,6 @@
         document.getElementById('round-'+r).classList.add('bg-[var(--world-gold)]', 'text-black');
         render(); 
     };
-
     window.onload = initLeague;
 </script>
 </body>
