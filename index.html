@@ -2,130 +2,187 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ONE SUPER CUP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>World Cup Format</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Inter', sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Outfit:wght@700;900&display=swap');
+
+        :root {
+            --world-gold: #ddec0f;
+            --world-navy: #0a192f;
+            --dark-bg: #050b14;
         }
 
-        .app-container {
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            max-height: 850px;
-            background: #000000;
-            border-radius: 40px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #222;
-        }
-
-        .top-gradient {
-            background-image: url('https://i.pinimg.com/1200x/7b/5e/b4/7b5eb4dd5305ea8427b75b91597df10b.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 250px;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            padding: 50px 25px 25px 25px;
-        }
-
-        .card-bg-img {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-        
-        .card-overlay {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-        }
-
-        .transaction-card {
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            margin-bottom: 16px;
-            height: 90px;
-            overflow: hidden;
-            display: block;
-            text-decoration: none;
-        }
-
-        .neon-red:hover { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); transform: translateY(-2px); }
-        .neon-blue:hover { box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); transform: translateY(-2px); }
-        .neon-green:hover { box-shadow: 0 0 20px rgba(14, 115, 237, 0.6); transform: translateY(-2px); }
-        .neon-purple:hover { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); transform: translateY(-2px); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: #ffffff; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        .heading-font { font-family: 'Outfit', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.2s; }
+        .glass-panel:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.1); }
+        .score-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; background: #000; }
+        .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }
+        .team-link { color: #ffffff !important; text-decoration: none; }
+        .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }
     </style>
 </head>
-<body>
+<body class="no-scrollbar pb-24">
 
-<div class="app-container">
-    <div class="top-gradient"></div>
-
-    <div class="flex-1 p-6 text-white overflow-y-auto">
-        <h2 class="text-xl font-semibold mb-6">SUPER CUP FIXTURES</h2>
-
-        <!-- Player Lists -->
-        <a href="https://supercupepl.ziokai2212006.workers.dev/" target="_blank" class="transaction-card neon-red card-bg-img" style="background-image: url('https://i.pinimg.com/1200x/14/0b/1b/140b1ba53fcfe5cefa07d01fce33d67e.jpg');">
-            <div class="card-overlay">
-                <div class="flex-1">
-                    <p class="font-bold text-white text-lg">English Premier League</p>
-                    <p class="text-xs text-gray-400">Tap to view details</p>
-                </div>
-            </div>
-        </a>
-
-        <!-- Match Fixtures -->
-        <a href="https://laligasupercup.ziokai2212006.workers.dev/" target="_blank" class="transaction-card neon-green card-bg-img" style="background-image: url('https://i.pinimg.com/736x/7f/39/43/7f3943c78291053c80b4352041d19ce4.jpg');">
-            <div class="card-overlay">
-                <div class="flex-1">
-                    <p class="font-bold text-white text-lg">Spain LaLiga</p>
-                    <p class="text-xs text-gray-400">Tap to view details</p>
-                </div>
-            </div>
-        </a>
-
-        <!-- Send Result -->
-        <a href="https://serieasupercup.ziokai2212006.workers.dev/" target="_blank" class="transaction-card neon-blue card-bg-img" style="background-image: url('https://i.pinimg.com/736x/8a/a4/6d/8aa46daeb36e14466570cf7f20c87da9.jpg');">
-            <div class="card-overlay">
-                <div class="flex-1">
-                    <p class="font-bold text-white text-lg">Italy Serie A</p>
-                    <p class="text-xs text-gray-400">Tap to send result</p>
-                </div>
-            </div>
-        </a>
-
-        <!-- Coin Store -->
-        <a href="https://myanmarsupercup.ziokai2212006.workers.dev/" target="_blank" class="transaction-card neon-purple card-bg-img" style="background-image: url('https://i.pinimg.com/736x/f6/d4/62/f6d462a853fe6a9c5bee1d92e11f0e6f.jpg');">
-            <div class="card-overlay">
-                <div class="flex-1">
-                    <p class="font-bold text-white text-lg">German Bundesliga</p>
-                    <p class="text-xs text-gray-400">Tap to view details</p>
-                </div>
-            </div>
-        </a>
-
+<header class="sticky top-0 z-40 bg-[var(--world-navy)]/90 backdrop-blur-lg border-b border-[var(--world-gold)]/20 px-6 py-5">
+    <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg">
+            <i class='fas fa-trophy text-black text-lg'></i>
+        </div>
+        <h1 class="heading-font text-lg leading-none italic">Master League <span class="text-[var(--world-gold)]">| World Cup</span></h1>
     </div>
-</div>
+</header>
 
+<main class="p-5 max-w-4xl mx-auto">
+    <div class="flex space-x-2 overflow-x-auto no-scrollbar mb-8">
+        <button onclick="setRound(1)" id="round-1" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 1</button>
+        <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 2</button>
+        <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-[var(--world-gold)] text-black">Round 3</button>
+    </div>
+    <div class="space-y-12">
+        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2><div id="fixture-container" class="space-y-4"></div></div>
+        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2><div id="standings-container" class="space-y-8"></div></div>
+    </div>
+</main>
+
+<script>
+    const TELEGRAM_LINKS = {
+        "Argentina": "https://t.me/Mgzay8", "Australia": "https://t.me/Aungpyinnyar", "Austria": "https://t.me/oakjar",
+        "Belgium": "https://t.me/Heinminmdy", "Bosnia and Herzegovina": "https://t.me/SonyaMuller9", "Brazil": "https://t.me/ChanAung1178",
+        "Canada": "https://t.me/AungZinPhyo1992", "Cape Verde": "https://t.me/Heropool", "Colombia": "https://t.me/AHtikeZ",
+        "Croatia": "https://t.me/nzp567", "Curaçao": "https://t.me/iz_szlai", "Czechia": "https://t.me/PK2142022",
+        "DR Congo": "https://t.me/kenzjust", "Ecuador": "https://t.me/Nyanzayar", "Egypt": "https://t.me/Bel_kyaw",
+        "England": "https://t.me/HmMmOnFiRe", "France": "https://t.me/nicorizer", "Germany": "https://t.me/everton55555",
+        "Ghana": "https://t.me/khantkyawthu_01", "Haiti": "https://t.me/Doraemoncat77", "Iran": "https://t.me/Sanminoo",
+        "Iraq": "https://t.me/kharkhar1225", "Japan": "https://t.me/Nyan428925", "Jordan": "https://t.me/Lnferno_017",
+        "Mexico": "https://t.me/lokidemon99", "Morocco": "https://t.me/Myan_Khun", "Netherlands": "https://t.me/oki6k",
+        "New Zealand": "https://t.me/mikeyjn", "Norway": "https://t.me/kiteedgeyidicy", "Panama": "https://t.me/Gameefootball710",
+        "Paraguay": "https://t.me/HmMmOnFiRe", "Portugal": "https://t.me/Wallker29", "Qatar": "https://t.me/ZawThatPaingSoe",
+        "Saudi Arabia": "https://t.me/lakham212", "Scotland": "https://t.me/Mg1108", "Senegal": "#",
+        "South Africa": "https://t.me/aungnayzan", "South Korea": "https://t.me/Hemaljr10", "Spain": "https://t.me/Bhone3245",
+        "Sweden": "https://t.me/lexaonyx", "Switzerland": "https://t.me/ThuriMin2355", "Tunisia": "https://t.me/Ranger13102003",
+        "Türkiye": "https://t.me/Ferdico99", "United States": "https://t.me/ShadowFang191", "Uruguay": "https://t.me/HeinHtet_Nai",
+        "Uzbekistan": "https://t.me/zawphyothant10", "Algeria": "https://t.me/Unoebm123", "Côte d'Ivoire": "https://t.me/Khant0079"
+    };
+
+    const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];
+    
+    const G_NAMES = "ABCDEFGHIJKL".split("");
+    let state = { teams: [], matches: [], activeRound: 3 };
+
+    function initLeague() {
+        state.teams = PLAYER_NAMES.map((name, i) => {
+            const groupIndex = Math.floor(i / 4);
+            return { id: i + 1, name: name, group: G_NAMES[groupIndex] || "Z", link: TELEGRAM_LINKS[name] || "#", m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
+        });
+        state.matches = [];
+        let mid = 1;
+        G_NAMES.forEach(g => {
+            const gt = state.teams.filter(t => t.group === g);
+            const pairings = [{h:0, a:1, r:1}, {h:2, a:3, r:1}, {h:0, a:2, r:2}, {h:1, a:3, r:2}, {h:0, a:3, r:3}, {h:1, a:2, r:3}];
+            pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); });
+        });
+
+        // Round 1
+        const r1 = [{h:"Argentina", a:"Australia", hS:0, aS:4}, {h:"Austria", a:"Belgium", hS:0, aS:2}, {h:"Bosnia and Herzegovina", a:"Brazil", hS:1, aS:3}, {h:"Canada", a:"Cape Verde", hS:7, aS:3}, {h:"Colombia", a:"Croatia", hS:2, aS:2}, {h:"Curaçao", a:"Czechia", hS:5, aS:4}, {h:"DR Congo", a:"Ecuador", hS:1, aS:1}, {h:"Egypt", a:"England", hS:6, aS:1}, {h:"France", a:"Germany", hS:2, aS:2}, {h:"Ghana", a:"Haiti", hS:5, aS:0}, {h:"Iran", a:"Iraq", hS:3, aS:6}, {h:"Japan", a:"Jordan", hS:8, aS:0}, {h:"Mexico", a:"Morocco", hS:4, aS:2}, {h:"Netherlands", a:"New Zealand", hS:1, aS:4}, {h:"Norway", a:"Panama", hS:0, aS:3}, {h:"Paraguay", a:"Portugal", hS:3, aS:2}, {h:"Qatar", a:"Saudi Arabia", hS:0, aS:5}, {h:"Scotland", a:"Senegal", hS:1, aS:10}, {h:"South Africa", a:"South Korea", hS:1, aS:2}, {h:"Spain", a:"Sweden", hS:2, aS:0}, {h:"Switzerland", a:"Tunisia", hS:5, aS:1}, {h:"Türkiye", a:"United States", hS:3, aS:5}, {h:"Uruguay", a:"Uzbekistan", hS:9, aS:3}, {h:"Algeria", a:"Côte d'Ivoire", hS:0, aS:10}];
+        r1.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 1); if(m) { m.hS = res.hS; m.aS = res.aS; } });
+
+        // Round 2
+        const r2 = [{h:"Argentina", a:"Austria", hS:1, aS:3}, {h:"Australia", a:"Belgium", hS:1, aS:3}, {h:"Bosnia and Herzegovina", a:"Canada", hS:1, aS:2}, {h:"Brazil", a:"Cape Verde", hS:4, aS:2}, {h:"Colombia", a:"Curaçao", hS:2, aS:4}, {h:"Croatia", a:"Czechia", hS:3, aS:1}, {h:"DR Congo", a:"Egypt", hS:2, aS:8}, {h:"Ecuador", a:"England", hS:5, aS:0}, {h:"France", a:"Ghana", hS:4, aS:0}, {h:"Germany", a:"Haiti", hS:0, aS:5}, {h:"Iran", a:"Japan", hS:4, aS:3}, {h:"Iraq", a:"Jordan", hS:8, aS:1}, {h:"Mexico", a:"Netherlands", hS:5, aS:6}, {h:"Morocco", a:"New Zealand", hS:3, aS:3}, {h:"Norway", a:"Paraguay", hS:0, aS:3}, {h:"Panama", a:"Portugal", hS:1, aS:2}, {h:"Qatar", a:"Scotland", hS:0, aS:3}, {h:"Saudi Arabia", a:"Senegal", hS:4, aS:4}, {h:"South Africa", a:"Spain", hS:6, aS:2}, {h:"South Korea", a:"Sweden", hS:4, aS:1}, {h:"Switzerland", a:"Türkiye", hS:3, aS:3}, {h:"Tunisia", a:"United States", hS:2, aS:3}, {h:"Uruguay", a:"Algeria", hS:3, aS:0}, {h:"Uzbekistan", a:"Côte d'Ivoire", hS:0, aS:3}];
+        r2.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 2); if(m) { m.hS = res.hS; m.aS = res.aS; } });
+
+        // Round 3
+        const r3 = [{h:"Argentina", a:"Belgium", hS:2, aS:3}, {h:"Australia", a:"Austria", hS:null, aS:null}, {h:"Bosnia and Herzegovina", a:"Cape Verde", hS:3, aS:2}, {h:"Brazil", a:"Canada", hS:4, aS:3}, {h:"Colombia", a:"Czechia", hS:10, aS:1}, {h:"Croatia", a:"Curaçao", hS:2, aS:1}, {h:"DR Congo", a:"England", hS:9, aS:2}, {h:"Ecuador", a:"Egypt", hS:2, aS:5}, {h:"France", a:"Haiti", hS:3, aS:0}, {h:"Germany", a:"Ghana", hS:2, aS:5}, {h:"Iran", a:"Jordan", hS:3, aS:0}, {h:"Iraq", a:"Japan", hS:3, aS:5}, {h:"Mexico", a:"New Zealand", hS:4, aS:2}, {h:"Morocco", a:"Netherlands", hS:5, aS:1}, {h:"Norway", a:"Portugal", hS:0, aS:3}, {h:"Panama", a:"Paraguay", hS:4, aS:5}, {h:"Qatar", a:"Senegal", hS:0, aS:3}, {h:"Saudi Arabia", a:"Scotland", hS:11, aS:2}, {h:"South Africa", a:"Sweden", hS:3, aS:0}, {h:"South Korea", a:"Spain", hS:3, aS:2}, {h:"Switzerland", a:"United States", hS:1, aS:5}, {h:"Tunisia", a:"Türkiye", hS:5, aS:3}, {h:"Uruguay", a:"Côte d'Ivoire", hS:4, aS:1}, {h:"Uzbekistan", a:"Algeria", hS:null, aS:null}];
+        r3.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 3); if(m) { m.hS = res.hS; m.aS = res.aS; } });
+        
+        updateStandings();
+        render();
+    }
+
+    function getScoreColor(s1, s2) {
+        if (s1 === null || s2 === null) return "";
+        if (s1 === s2) return "text-yellow-400";
+        return s1 > s2 ? "text-green-500" : "text-red-500";
+    }
+
+    function editMatch(id) {
+        const match = state.matches.find(m => m.id === id);
+        const score = prompt(`Enter score for ${match.home} vs ${match.away} (e.g. 2-1):`);
+        if (score && score.includes('-')) {
+            const [hS, aS] = score.split('-').map(Number);
+            match.hS = hS; match.aS = aS; updateStandings(); render();
+        }
+    }
+
+    function updateStandings() {
+        state.teams.forEach(t => { t.m=t.w=t.d=t.l=t.gf=t.ga=t.gd=t.pts = 0; });
+        state.matches.forEach(m => {
+            if (m.hS !== null && m.aS !== null) {
+                const home = state.teams.find(t => t.name === m.home);
+                const away = state.teams.find(t => t.name === m.away);
+                home.m++; away.m++;
+                home.gf += m.hS; home.ga += m.aS; away.gf += m.aS; away.ga += m.hS;
+                if(m.hS > m.aS) { home.w++; home.pts += 3; away.l++; }
+                else if(m.hS < m.aS) { away.w++; away.pts += 3; home.l++; }
+                else { home.d++; away.d++; home.pts += 1; away.pts += 1; }
+                home.gd = home.gf - home.ga; away.gd = away.gf - away.ga;
+            }
+        });
+    }
+
+    function render() {
+        const rdMatches = state.matches.filter(m => m.round === state.activeRound);
+        let lastG = "";
+        document.getElementById('fixture-container').innerHTML = rdMatches.map(m => {
+            let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";
+            const home = state.teams.find(t => t.name === m.home);
+            const away = state.teams.find(t => t.name === m.away);
+            const hColor = getScoreColor(m.hS, m.aS);
+            const aColor = getScoreColor(m.aS, m.hS);
+            return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">
+                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">
+                   ${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}
+                </div>
+                <div onclick="editMatch(${m.id})" class="flex items-center space-x-2 cursor-pointer">
+                    <div class="score-box ${hColor}">${m.hS !== null ? m.hS : '-'}</div>
+                    <div class="score-box ${aColor}">${m.aS !== null ? m.aS : '-'}</div>
+                </div>
+                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">
+                   ${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}
+                </div>
+            </div>`;
+        }).join('');
+
+        document.getElementById('standings-container').innerHTML = G_NAMES.map(g => {
+            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
+            return `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">
+                <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">GROUP ${g}</div>
+                <table class="w-full text-[10px] text-center min-w-[300px]">
+                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>
+                    <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">
+                        <td class="text-left py-2">
+                            <div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div>
+                        </td>
+                        <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>
+                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>`;
+        }).join('');
+    }
+
+    window.setRound = (r) => { 
+        state.activeRound = r; 
+        document.querySelectorAll('.round-btn').forEach(btn => btn.classList.remove('bg-[var(--world-gold)]', 'text-black'));
+        document.getElementById('round-'+r).classList.add('bg-[var(--world-gold)]', 'text-black');
+        render(); 
+    };
+
+    window.onload = initLeague;
+</script>
 </body>
 </html>
