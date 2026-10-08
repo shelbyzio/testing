@@ -1,16 +1,424 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    <title>World Cup Format</title>    <script src="https://cdn.tailwindcss.com"></script>    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Outfit:wght@700;900&display=swap');
-        :root {            --world-gold: #ddec0f;            --world-navy: #0a192f;            --dark-bg: #050b14;        }
-        body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: #ffffff; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }        .heading-font { font-family: 'Outfit', sans-serif; }        .no-scrollbar::-webkit-scrollbar { display: none; }        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.2s; }        .glass-panel:active { transform: scale(0.98); background: rgba(212, 175, 55, 0.1); }        .score-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 16px; border: 1px solid #333; background: #000; }        .group-header { background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, transparent 100%); border-left: 3px solid var(--world-gold); }        .team-link { color: #ffffff !important; text-decoration: none; }        .team-link:hover { color: var(--world-gold) !important; text-decoration: underline; }    </style></head><body class="no-scrollbar pb-24">
-<header class="sticky top-0 z-40 bg-[var(--world-navy)]/90 backdrop-blur-lg border-b border-[var(--world-gold)]/20 px-6 py-5">    <div class="flex items-center space-x-3">        <div class="w-10 h-10 bg-[var(--world-gold)] rounded-xl flex items-center justify-center shadow-lg">            <i class='fas fa-trophy text-black text-lg'></i>        </div>        <h1 class="heading-font text-lg leading-none italic">Master League <span class="text-[var(--world-gold)]">| World Cup</span></h1>    </div></header>
-<main class="p-5 max-w-4xl mx-auto">    <div class="flex space-x-2 overflow-x-auto no-scrollbar mb-8">        <button onclick="setRound(1)" id="round-1" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 1</button>        <button onclick="setRound(2)" id="round-2" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-zinc-900">Round 2</button>        <button onclick="setRound(3)" id="round-3" class="round-btn flex-1 py-4 rounded-xl text-[10px] font-black uppercase transition-all bg-[var(--world-gold)] text-black">Round 3</button>    </div>    <div class="space-y-12">        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">Match Fixtures</h2><div id="fixture-container" class="space-y-4"></div></div>        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4 px-2 italic">League Standings</h2><div id="standings-container" class="space-y-8"></div></div>        <div><h2 class="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--world-gold)] mb-4 px-2 italic">Third Place Standings (Top 8 Qualify)</h2><div id="third-place-container"></div></div>    </div></main>
-<script>    const TELEGRAM_LINKS = {        "Argentina": "https://t.me/Mgzay8", "Australia": "https://t.me/Aungpyinnyar", "Austria": "https://t.me/oakjar",        "Belgium": "https://t.me/Heinminmdy", "Bosnia and Herzegovina": "https://t.me/SonyaMuller9", "Brazil": "https://t.me/ChanAung1178",        "Canada": "https://t.me/AungZinPhyo1992", "Cape Verde": "https://t.me/Heropool", "Colombia": "https://t.me/AHtikeZ",        "Croatia": "https://t.me/nzp567", "Curaçao": "https://t.me/iz_szlai", "Czechia": "https://t.me/PK2142022",        "DR Congo": "https://t.me/kenzjust", "Ecuador": "https://t.me/Nyanzayar", "Egypt": "https://t.me/Bel_kyaw",        "England": "https://t.me/HmMmOnFiRe", "France": "https://t.me/nicorizer", "Germany": "https://t.me/everton55555",        "Ghana": "https://t.me/khantkyawthu_01", "Haiti": "https://t.me/Doraemoncat77", "Iran": "https://t.me/Sanminoo",        "Iraq": "https://t.me/kharkhar1225", "Japan": "https://t.me/Nyan428925", "Jordan": "https://t.me/Lnferno_017",        "Mexico": "https://t.me/lokidemon99", "Morocco": "https://t.me/Myan_Khun", "Netherlands": "https://t.me/oki6k",        "New Zealand": "https://t.me/mikeyjn", "Norway": "https://t.me/kiteedgeyidicy", "Panama": "https://t.me/Gameefootball710",        "Paraguay": "https://t.me/HmMmOnFiRe", "Portugal": "https://t.me/Wallker29", "Qatar": "https://t.me/ZawThatPaingSoe",        "Saudi Arabia": "https://t.me/lakham212", "Scotland": "https://t.me/Mg1108", "Senegal": "#",        "South Africa": "https://t.me/aungnayzan", "South Korea": "https://t.me/Hemaljr10", "Spain": "https://t.me/Bhone3245",        "Sweden": "https://t.me/lexaonyx", "Switzerland": "https://t.me/ThuriMin2355", "Tunisia": "https://t.me/Ranger13102003",        "Türkiye": "https://t.me/Ferdico99", "United States": "https://t.me/ShadowFang191", "Uruguay": "https://t.me/HeinHtet_Nai",        "Uzbekistan": "https://t.me/zawphyothant10", "Algeria": "https://t.me/Unoebm123", "Côte d'Ivoire": "https://t.me/Khant0079"    };
-    const PLAYER_NAMES = ["Argentina", "Australia", "Austria", "Belgium", "Bosnia and Herzegovina", "Brazil", "Canada", "Cape Verde", "Colombia", "Croatia", "Curaçao", "Czechia", "DR Congo", "Ecuador", "Egypt", "England", "France", "Germany", "Ghana", "Haiti", "Iran", "Iraq", "Japan", "Jordan", "Mexico", "Morocco", "Netherlands", "New Zealand", "Norway", "Panama", "Paraguay", "Portugal", "Qatar", "Saudi Arabia", "Scotland", "Senegal", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Tunisia", "Türkiye", "United States", "Uruguay", "Uzbekistan", "Algeria", "Côte d'Ivoire"];        const G_NAMES = "ABCDEFGHIJKL".split("");    let state = { teams: [], matches: [], activeRound: 3 };
-    function initLeague() {        state.teams = PLAYER_NAMES.map((name, i) => {            const groupIndex = Math.floor(i / 4);            return { id: i + 1, name: name, group: G_NAMES[groupIndex] || "Z", link: TELEGRAM_LINKS[name] || "#", m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 };        });        state.matches = [];        let mid = 1;        G_NAMES.forEach(g => {            const gt = state.teams.filter(t => t.group === g);            const pairings = [{h:0, a:1, r:1}, {h:2, a:3, r:1}, {h:0, a:2, r:2}, {h:1, a:3, r:2}, {h:0, a:3, r:3}, {h:1, a:2, r:3}];            pairings.forEach(p => { state.matches.push({ id: mid++, group: g, round: p.r, home: gt[p.h].name, away: gt[p.a].name, hS: null, aS: null }); });        });
-        const r1 = [{h:"Argentina", a:"Australia", hS:0, aS:4}, {h:"Austria", a:"Belgium", hS:0, aS:2}, {h:"Bosnia and Herzegovina", a:"Brazil", hS:1, aS:3}, {h:"Canada", a:"Cape Verde", hS:7, aS:3}, {h:"Colombia", a:"Croatia", hS:2, aS:2}, {h:"Curaçao", a:"Czechia", hS:5, aS:4}, {h:"DR Congo", a:"Ecuador", hS:1, aS:1}, {h:"Egypt", a:"England", hS:6, aS:1}, {h:"France", a:"Germany", hS:2, aS:2}, {h:"Ghana", a:"Haiti", hS:5, aS:0}, {h:"Iran", a:"Iraq", hS:3, aS:6}, {h:"Japan", a:"Jordan", hS:8, aS:0}, {h:"Mexico", a:"Morocco", hS:4, aS:2}, {h:"Netherlands", a:"New Zealand", hS:1, aS:4}, {h:"Norway", a:"Panama", hS:0, aS:3}, {h:"Paraguay", a:"Portugal", hS:3, aS:2}, {h:"Qatar", a:"Saudi Arabia", hS:0, aS:5}, {h:"Scotland", a:"Senegal", hS:1, aS:10}, {h:"South Africa", a:"South Korea", hS:1, aS:2}, {h:"Spain", a:"Sweden", hS:2, aS:0}, {h:"Switzerland", a:"Tunisia", hS:1, aS:5}, {h:"Türkiye", a:"United States", hS:3, aS:5}, {h:"Uruguay", a:"Uzbekistan", hS:9, aS:3}, {h:"Algeria", a:"Côte d'Ivoire", hS:0, aS:10}];        r1.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 1); if(m) { m.hS = res.hS; m.aS = res.aS; } });        const r2 = [{h:"Argentina", a:"Austria", hS:1, aS:3}, {h:"Australia", a:"Belgium", hS:1, aS:3}, {h:"Bosnia and Herzegovina", a:"Canada", hS:1, aS:2}, {h:"Brazil", a:"Cape Verde", hS:4, aS:2}, {h:"Colombia", a:"Curaçao", hS:2, aS:4}, {h:"Croatia", a:"Czechia", hS:3, aS:1}, {h:"DR Congo", a:"Egypt", hS:2, aS:8}, {h:"Ecuador", a:"England", hS:5, aS:0}, {h:"France", a:"Ghana", hS:4, aS:0}, {h:"Germany", a:"Haiti", hS:0, aS:5}, {h:"Iran", a:"Japan", hS:4, aS:3}, {h:"Iraq", a:"Jordan", hS:8, aS:1}, {h:"Mexico", a:"Netherlands", hS:5, aS:6}, {h:"Morocco", a:"New Zealand", hS:3, aS:3}, {h:"Norway", a:"Paraguay", hS:0, aS:3}, {h:"Panama", a:"Portugal", hS:1, aS:2}, {h:"Qatar", a:"Scotland", hS:0, aS:3}, {h:"Saudi Arabia", a:"Senegal", hS:4, aS:4}, {h:"South Africa", a:"Spain", hS:6, aS:2}, {h:"South Korea", a:"Sweden", hS:4, aS:1}, {h:"Switzerland", a:"Türkiye", hS:3, aS:3}, {h:"Tunisia", a:"United States", hS:2, aS:3}, {h:"Uruguay", a:"Algeria", hS:3, aS:0}, {h:"Uzbekistan", a:"Côte d'Ivoire", hS:0, aS:3}];        r2.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 2); if(m) { m.hS = res.hS; m.aS = res.aS; } });        const r3 = [{h:"Argentina", a:"Belgium", hS:2, aS:3}, {h:"Australia", a:"Austria", hS:null, aS:null}, {h:"Bosnia and Herzegovina", a:"Cape Verde", hS:3, aS:2}, {h:"Brazil", a:"Canada", hS:4, aS:3}, {h:"Colombia", a:"Czechia", hS:10, aS:1}, {h:"Croatia", a:"Curaçao", hS:2, aS:1}, {h:"DR Congo", a:"England", hS:9, aS:2}, {h:"Ecuador", a:"Egypt", hS:2, aS:5}, {h:"France", a:"Haiti", hS:3, aS:0}, {h:"Germany", a:"Ghana", hS:2, aS:5}, {h:"Iran", a:"Jordan", hS:3, aS:0}, {h:"Iraq", a:"Japan", hS:3, aS:5}, {h:"Mexico", a:"New Zealand", hS:4, aS:2}, {h:"Morocco", a:"Netherlands", hS:5, aS:1}, {h:"Norway", a:"Portugal", hS:0, aS:3}, {h:"Panama", a:"Paraguay", hS:4, aS:5}, {h:"Qatar", a:"Senegal", hS:0, aS:3}, {h:"Saudi Arabia", a:"Scotland", hS:11, aS:2}, {h:"South Africa", a:"Sweden", hS:3, aS:0}, {h:"South Korea", a:"Spain", hS:3, aS:2}, {h:"Switzerland", a:"United States", hS:1, aS:5}, {h:"Tunisia", a:"Türkiye", hS:5, aS:3}, {h:"Uruguay", a:"Côte d'Ivoire", hS:4, aS:1}, {h:"Uzbekistan", a:"Algeria", hS:null, aS:null}];        r3.forEach(res => { const m = state.matches.find(ma => ma.home === res.h && ma.away === res.a && ma.round === 3); if(m) { m.hS = res.hS; m.aS = res.aS; } });                updateStandings();        render();    }
-    function updateStandings() {        state.teams.forEach(t => { t.m=t.w=t.d=t.l=t.gf=t.ga=t.gd=t.pts = 0; });        state.matches.forEach(m => {            if (m.hS !== null && m.aS !== null) {                const home = state.teams.find(t => t.name === m.home);                const away = state.teams.find(t => t.name === m.away);                home.m++; away.m++;                home.gf += m.hS; home.ga += m.aS; away.gf += m.aS; away.ga += m.hS;                if(m.hS > m.aS) { home.w++; home.pts += 3; away.l++; }                else if(m.hS < m.aS) { away.w++; away.pts += 3; home.l++; }                else { home.d++; away.d++; home.pts += 1; away.pts += 1; }                home.gd = home.gf - home.ga; away.gd = away.gf - away.ga;            }        });    }
-    function getScoreColor(hS, aS, isHome) {        if (hS === null || aS === null) return "text-white";        if (hS === aS) return "text-yellow-400";        if (isHome) return hS > aS ? "text-green-500" : "text-red-500";        return aS > hS ? "text-green-500" : "text-red-500";    }
-    function render() {        const rdMatches = state.matches.filter(m => m.round === state.activeRound);        let lastG = "";        document.getElementById('fixture-container').innerHTML = rdMatches.map(m => {            let header = m.group !== lastG ? (lastG = m.group, `<div class="group-header py-2 px-4 mb-3 text-[10px] font-black text-[var(--world-gold)] uppercase italic">Group ${m.group}</div>`) : "";            const home = state.teams.find(t => t.name === m.home);            const away = state.teams.find(t => t.name === m.away);            return header + `<div class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-2">                <div class="flex-1 text-right pr-4 text-[11px] font-bold truncate">${home.link !== "#" ? `<a href="${home.link}" target="_blank" class="team-link">${m.home}</a>` : m.home}</div>                <div class="flex items-center space-x-2 cursor-pointer" onclick="editMatch(${m.id})">                    <div class="score-box ${getScoreColor(m.hS, m.aS, true)}">${m.hS !== null ? m.hS : '-'}</div>                    <div class="score-box ${getScoreColor(m.hS, m.aS, false)}">${m.aS !== null ? m.aS : '-'}</div>                </div>                <div class="flex-1 text-left pl-4 text-[11px] font-bold truncate">${away.link !== "#" ? `<a href="${away.link}" target="_blank" class="team-link">${m.away}</a>` : m.away}</div>            </div>`;        }).join('');
-        document.getElementById('standings-container').innerHTML = G_NAMES.map(g => {            const gt = state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd);            return `<div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/10 overflow-x-auto">                <div class="text-[10px] font-black text-[var(--world-gold)] mb-4">GROUP ${g}</div>                <table class="w-full text-[10px] text-center min-w-[300px]">                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>                    <tbody class="divide-y divide-white/5">${gt.map(t => `<tr class="h-14">                        <td class="text-left py-2"><div class="font-bold">${t.link !== "#" ? `<a href="${t.link}" target="_blank" class="team-link">${t.name}</a>` : t.name}</div></td>                        <td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>                    </tr>`).join('')}</tbody>                </table>            </div>`;        }).join('');
-        const thirdPlaceTeams = G_NAMES.map(g => {            return state.teams.filter(t => t.group === g).sort((a,b) => b.pts - a.pts || b.gd - a.gd)[2];        }).filter(t => t !== undefined).sort((a,b) => b.pts - a.pts || b.gd - a.gd);
-        document.getElementById('third-place-container').innerHTML = `            <div class="bg-black/40 rounded-3xl p-5 border border-[var(--world-gold)]/20 overflow-x-auto">                <table class="w-full text-[10px] text-center min-w-[300px]">                    <thead><tr class="text-zinc-500"><th class="text-left">TEAM</th><th>GRP</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr></thead>                    <tbody class="divide-y divide-white/5">${thirdPlaceTeams.map((t, index) => `<tr class="h-12 ${index < 8 ? 'bg-[var(--world-gold)]/10' : ''}">                        <td class="text-left py-2 font-bold ${index < 8 ? 'text-[var(--world-gold)]' : ''}">${t.name} ${index < 8 ? '★' : ''}</td>                        <td>${t.group}</td><td>${t.m}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gd}</td>                        <td class="font-bold text-[var(--world-gold)]">${t.pts}</td>                    </tr>`).join('')}</tbody>                </table>            </div>`;    }
-    window.setRound = (r) => {         state.activeRound = r;         document.querySelectorAll('.round-btn').forEach(btn => btn.classList.remove('bg-[var(--world-gold)]', 'text-black'));        document.getElementById('round-'+r).classList.add('bg-[var(--world-gold)]', 'text-black');        render();     };    window.onload = initLeague;</script></body></html>
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spain La Liga - Tournament Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .scrollbar-hidden::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+    <!-- Header with Clean White & Bold Red Theme -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-3 py-3 flex flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <div class="bg-red-600 p-1.5 rounded-xl h-9 w-9 overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-600/20">
+                    <i class="fa-solid fa-trophy text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-black text-slate-900">SPAIN <span class="text-red-600">LA LIGA</span></h1>
+                    <p class="text-[8px] text-slate-500 font-bold uppercase">COMMUNITY LEAGUE</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="promptAdminPassword()" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 text-[10px] font-bold hover:bg-red-600 hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-pen-to-square mr-1"></i> Admin Edit
+                </button>
+                <div class="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                    <button id="tab-fixtures-btn" onclick="switchTab('fixtures')" class="px-3 py-1.5 rounded-md text-[10px] font-bold text-red-600 bg-white shadow-sm">Fixtures</button>
+                    <button id="tab-standings-btn" onclick="switchTab('standings')" class="px-3 py-1.5 rounded-md text-[10px] font-bold text-slate-500">Standings</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-3 py-5 flex-1 w-full">
+        <div class="grid grid-cols-2 gap-2 mb-5">
+            <div class="bg-white border border-slate-200 p-3 rounded-xl shadow-sm flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+                    <i class="fa-solid fa-shield-halved text-sm"></i>
+                </div>
+                <div><span class="text-[8px] text-slate-400 block uppercase font-semibold">Teams</span><span class="text-sm font-bold text-slate-800">12</span></div>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-xl shadow-sm flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i class="fa-solid fa-cloud text-sm"></i>
+                </div>
+                <div><span class="text-[8px] text-slate-400 block uppercase font-semibold">Database</span><span class="text-xs font-bold text-emerald-600" id="sync-status">Connected</span></div>
+            </div>
+        </div>
+
+        <div id="tab-fixtures-content" class="space-y-4">
+            <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
+                <span class="text-[10px] font-bold text-red-600 uppercase mb-2 block">Matchday Selector</span>
+                <div class="flex gap-2 overflow-x-auto scrollbar-hidden pb-1" id="matchday-selector-container"></div>
+            </div>
+
+            <div class="flex justify-between items-center bg-white border-l-4 border-red-600 p-3 rounded-r-xl shadow-sm">
+                <h2 class="text-sm font-black text-slate-800" id="fixture-round-title">ROUND 1</h2>
+                <div class="flex gap-1">
+                    <button onclick="changeMatchday(-1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <button onclick="changeMatchday(1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-3" id="fixtures-grid"></div>
+        </div>
+
+        <div id="tab-standings-content" class="hidden space-y-4">
+            <div class="bg-white border border-slate-200 rounded-xl overflow-x-auto text-[10px] shadow-sm">
+                <table class="w-full text-center min-w-[500px]">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                        <tr class="text-slate-500 font-bold">
+                            <th class="py-3 px-2">#</th>
+                            <th class="py-3 text-left pl-2">Club</th>
+                            <th class="py-3">M</th>
+                            <th class="py-3">W</th>
+                            <th class="py-3">D</th>
+                            <th class="py-3">L</th>
+                            <th class="py-3 hidden sm:table-cell">GF</th>
+                            <th class="py-3 hidden sm:table-cell">GA</th>
+                            <th class="py-3">GD</th>
+                            <th class="py-3 text-red-600">pts</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standings-table-body" class="divide-y divide-slate-100 font-medium text-slate-700"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="admin-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-lg p-5 shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+                <h3 class="text-sm font-black text-red-600 uppercase"><i class="fa-solid fa-shield-halved mr-1"></i> Admin Score Manager</h3>
+                <button onclick="closeAdminModal()" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="py-3 flex gap-2 items-center">
+                <label class="text-[10px] font-bold text-slate-500">Select Round:</label>
+                <select id="admin-round-select" onchange="renderAdminMatches()" class="bg-slate-50 text-xs font-bold text-slate-800 px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600">
+                </select>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-2 pr-1 my-2" id="admin-matches-container"></div>
+            <div class="pt-3 border-t border-slate-200 flex justify-end gap-2">
+                <button onclick="closeAdminModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-xs font-bold rounded-lg text-slate-600">Cancel</button>
+                <button onclick="saveAllResults()" class="px-4 py-2 bg-red-600 text-white text-xs font-black rounded-lg shadow-md hover:bg-red-700">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="password-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-xs p-5 shadow-2xl flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+                <h3 class="text-xs font-black text-red-600 uppercase"><i class="fa-solid fa-lock mr-1"></i> Admin Password</h3>
+                <button onclick="closePasswordModal()" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="py-4">
+                <label class="text-[10px] font-bold text-slate-500 mb-1 block">Enter Admin Password:</label>
+                <input type="password" id="admin-password-input" placeholder="Password" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-red-600">
+                <p id="password-error" class="text-[9px] text-red-500 mt-1 hidden">Incorrect password. Please try again.</p>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="closePasswordModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-[10px] font-bold rounded-lg text-slate-600">Cancel</button>
+                <button onclick="verifyPassword()" class="px-3 py-1.5 bg-red-600 text-white text-[10px] font-black rounded-lg shadow-md hover:bg-red-700">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCG8xdfNHBFKo1VlfBYCYZTP-8vid3R97I",
+            authDomain: "superepl.firebaseapp.com",
+            projectId: "superepl",
+            storageBucket: "superepl.firebasestorage.app",
+            messagingSenderId: "885676848744",
+            appId: "1:885676848744:web:ac9f912c3f06ecd3c2eddd",
+            measurementId: "G-FNDM2JKVH9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const TEAMS_LIST = [
+           { id: "BAR", name: "Barcelona", logo: "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg", telegram: "https://t.me/theinphyupyarmin" },
+{ id: "RMA", name: "Real Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg", telegram: "https://t.me/Heropool" },
+{ id: "ATM", name: "Atletico Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2024_logo.svg", telegram: "https://t.me/MESSi_10FC" },
+{ id: "VIL", name: "Villarreal", logo: "https://upload.wikimedia.org/wikipedia/en/7/70/Villarreal_CF_logo.svg", telegram: "https://t.me/HainnH20" },
+{ id: "BET", name: "Real Betis", logo: "https://upload.wikimedia.org/wikipedia/en/1/13/Real_Betis_Balompi%C3%A9.svg", telegram: "https://t.me/Junnpe" },
+{ id: "RSO", name: "Real Sociedad", logo: "https://upload.wikimedia.org/wikipedia/en/f/f1/Real_Sociedad_logo.svg", telegram: "https://t.me/KeeRan_kawor" },
+{ id: "GET", name: "Getafe", logo: "https://upload.wikimedia.org/wikipedia/en/d/dc/Getafe_CF.svg", telegram: "https://t.me/zores11" },
+{ id: "SEV", name: "Sevilla", logo: "https://upload.wikimedia.org/wikipedia/en/3/3b/Sevilla_FC_logo.svg", telegram: "https://t.me/" },
+{ id: "ALA", name: "Alaves", logo: "https://upload.wikimedia.org/wikipedia/en/2/2e/Deportivo_Alav%C3%A9s_logo_%282020%29.svg", telegram: "https://t.me/waiyan1212020" },
+{ id: "ATH", name: "Athletic Bilbao", logo: "https://upload.wikimedia.org/wikipedia/en/9/98/Athletic_Club_Bilbao_logo.svg", telegram: "https://t.me/BWhite099" },
+{ id: "GIR", name: "Girona", logo: "https://upload.wikimedia.org/wikipedia/en/9/90/Girona_FC_Logo.svg", telegram: "https://t.me/APH_Design_Studio_97" },
+{ id: "VAL", name: "Valencia", logo: "https://upload.wikimedia.org/wikipedia/en/c/ce/Valencia_CF_logo_%282009%29.svg", telegram: "https://t.me/agust_HML" }
+
+        ];
+
+        let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
+        let standingsData = [];
+        let RESULTS = {};
+
+        window.onload = async function() {
+            generateFixedRoundRobinFixtures();
+            renderMatchdaySelector();
+            
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (customErr) {
+                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", customErr);
+                        await signInAnonymously(auth);
+                    }
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                const docRef = doc(db, 'tournament_results', 'premier_league_12_team');
+                
+                onSnapshot(docRef, (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().results) {
+                        RESULTS = docSnap.data().results;
+                    } else {
+                        RESULTS = {};
+                        setDoc(docRef, { results: RESULTS }).catch(console.error);
+                    }
+                    processAllResults();
+                    renderFixtures();
+                    updateStandingsTable();
+                }, (error) => {
+                    console.error("Firestore listener error:", error);
+                    RESULTS = {};
+                    processAllResults();
+                    renderFixtures();
+                    updateStandingsTable();
+                });
+
+            } catch (e) {
+                console.error("Auth/Init error:", e);
+                RESULTS = {};
+                processAllResults();
+                renderFixtures();
+                updateStandingsTable();
+            }
+        };
+
+        function processAllResults() {
+            standingsData = TEAMS_LIST.map(t => ({ ...t, mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }));
+            Object.values(RESULTS).forEach(round => {
+                if (!round) return;
+                round.forEach(res => {
+                    if (res.hs === undefined || res.hs === null || res.hs === "" || res.as === undefined || res.as === null || res.as === "") return;
+                    const h = standingsData.find(t => t.id === res.home), a = standingsData.find(t => t.id === res.away);
+                    if(!h || !a) return;
+                    const hs = parseInt(res.hs), as = parseInt(res.as);
+                    h.mp++; a.mp++; h.gf += hs; h.ga += as; a.gf += as; a.ga += hs;
+                    h.gd = h.gf - h.ga; a.gd = a.gf - a.ga;
+                    if (hs > as) { h.w++; h.pts += 3; a.l++; } else if (hs < as) { a.w++; a.pts += 3; h.l++; } else { h.d++; a.d++; h.pts += 1; a.pts += 1; }
+                });
+            });
+        }
+
+        window.switchTab = function(tab) {
+            document.getElementById('tab-fixtures-content').classList.toggle('hidden', tab !== 'fixtures');
+            document.getElementById('tab-standings-content').classList.toggle('hidden', tab !== 'standings');
+            document.getElementById('tab-fixtures-btn').className = tab === 'fixtures' ? "px-3 py-1.5 rounded-md text-[10px] font-bold text-red-600 bg-white shadow-sm" : "px-3 py-1.5 rounded-md text-[10px] font-bold text-slate-500";
+            document.getElementById('tab-standings-btn').className = tab === 'standings' ? "px-3 py-1.5 rounded-md text-[10px] font-bold text-red-600 bg-white shadow-sm" : "px-3 py-1.5 rounded-md text-[10px] font-bold text-slate-500";
+            if(tab === 'standings') updateStandingsTable();
+        };
+
+        function generateFixedRoundRobinFixtures() {
+            const numTeams = TEAMS_LIST.length;
+            for (let round = 0; round < numTeams - 1; round++) {
+                const roundMatches = [];
+                for (let i = 0; i < numTeams / 2; i++) {
+                    const home = (round + i) % (numTeams - 1), away = (i === 0) ? numTeams - 1 : (numTeams - 1 - i + round) % (numTeams - 1);
+                    roundMatches.push({ home: TEAMS_LIST[home].id, away: TEAMS_LIST[away].id });
+                }
+                fixtures.push(roundMatches);
+            }
+        }
+
+        function renderMatchdaySelector() {
+            const container = document.getElementById('matchday-selector-container');
+            container.innerHTML = '';
+            for (let r = 0; r < TOTAL_ROUNDS; r++) {
+                const btn = document.createElement('button');
+                btn.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${r === 0 ? 'bg-red-600 text-white border-red-600' : 'bg-slate-50 text-slate-600 border-slate-200'}`;
+                btn.innerText = `R${r + 1}`;
+                btn.onclick = () => { 
+                    currentViewingMatchday = r; 
+                    document.querySelectorAll('#matchday-selector-container button').forEach((b, idx) => {
+                        b.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${idx === r ? 'bg-red-600 text-white border-red-600' : 'bg-slate-50 text-slate-600 border-slate-200'}`;
+                    });
+                    renderFixtures(); 
+                };
+                container.appendChild(btn);
+            }
+        }
+
+        function renderFixtures() {
+            const container = document.getElementById('fixtures-grid');
+            if(!container) return;
+            container.innerHTML = '';
+            document.getElementById('fixture-round-title').innerText = `ROUND ${currentViewingMatchday + 1}`;
+            const roundData = fixtures[currentViewingMatchday];
+            const roundResults = RESULTS[currentViewingMatchday] || [];
+            
+            roundData.forEach(match => {
+                const h = TEAMS_LIST.find(t => t.id === match.home), a = TEAMS_LIST.find(t => t.id === match.away);
+                const res = roundResults.find(r => r.home === h.id && r.away === a.id);
+                
+                let scoreDisplay = '<span class="text-red-600 font-black text-[10px] w-[20%] text-center">VS</span>';
+                if (res && res.hs !== undefined && res.hs !== null && res.hs !== "") {
+                    scoreDisplay = `<span class="text-slate-800 font-bold text-xs w-[20%] text-center">${res.hs} - ${res.as}</span>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-sm hover:border-red-300 transition";
+                card.innerHTML = `
+                    <div class="flex items-center gap-2 w-[40%]"><img src="${h.logo}" class="w-8 h-8 object-contain" crossorigin="anonymous"><a href="${h.telegram}" target="_blank" class="text-xs font-bold truncate text-slate-800 hover:text-red-600">${h.name}</a></div>
+                    ${scoreDisplay}
+                    <div class="flex items-center gap-2 w-[40%] justify-end"><a href="${a.telegram}" target="_blank" class="text-xs font-bold truncate text-slate-800 hover:text-red-600 text-right">${a.name}</a><img src="${a.logo}" class="w-8 h-8 object-contain" crossorigin="anonymous"></div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function updateStandingsTable() {
+            const tbody = document.getElementById('standings-table-body');
+            if(!tbody) return;
+            const sorted = [...standingsData].sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+            tbody.innerHTML = sorted.map((t, i) => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-3 px-2 text-slate-500 font-semibold">${i+1}</td>
+                    <td class="text-left py-3 pl-2"><a href="${t.telegram}" target="_blank" class="flex items-center gap-2"><img src="${t.logo}" class="w-5 h-5 object-contain" crossorigin="anonymous"><span class="font-semibold text-slate-800 hover:text-red-600">${t.name}</span></a></td>
+                    <td class="py-3">${t.mp}</td><td class="py-3">${t.w}</td><td class="py-3">${t.d}</td><td class="py-3">${t.l}</td>
+                    <td class="py-3 hidden sm:table-cell">${t.gf}</td><td class="py-3 hidden sm:table-cell">${t.ga}</td>
+                    <td class="py-3">${t.gd}</td><td class="py-3 font-black text-red-600">${t.pts}</td>
+                </tr>`).join('');
+        }
+        
+        window.changeMatchday = function(d) {
+            let n = currentViewingMatchday + d;
+            if (n >= 0 && n < TOTAL_ROUNDS) { 
+                currentViewingMatchday = n; 
+                document.querySelectorAll('#matchday-selector-container button').forEach((b, idx) => {
+                    b.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${idx === n ? 'bg-red-600 text-white border-red-600' : 'bg-slate-50 text-slate-600 border-slate-200'}`;
+                });
+                renderFixtures(); 
+            }
+        };
+
+        window.promptAdminPassword = function() {
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('password-error').classList.add('hidden');
+            document.getElementById('password-modal').classList.remove('hidden');
+        };
+
+        window.closePasswordModal = function() {
+            document.getElementById('password-modal').classList.add('hidden');
+        };
+
+        window.verifyPassword = function() {
+            const pass = document.getElementById('admin-password-input').value;
+            if (pass === "2024") {
+                closePasswordModal();
+                openAdminModal();
+            } else {
+                document.getElementById('password-error').classList.remove('hidden');
+            }
+        };
+
+        window.openAdminModal = function() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            const select = document.getElementById('admin-round-select');
+            select.innerHTML = '';
+            for(let i=0; i<TOTAL_ROUNDS; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `Round ${i+1}`;
+                if(i === currentViewingMatchday) opt.selected = true;
+                select.appendChild(opt);
+            }
+            renderAdminMatches();
+        };
+
+        window.closeAdminModal = function() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        };
+
+        window.renderAdminMatches = function() {
+            const roundIdx = parseInt(document.getElementById('admin-round-select').value);
+            const container = document.getElementById('admin-matches-container');
+            container.innerHTML = '';
+            const roundData = fixtures[roundIdx];
+            const roundResults = RESULTS[roundIdx] || [];
+
+            roundData.forEach((match) => {
+                const h = TEAMS_LIST.find(t => t.id === match.home), a = TEAMS_LIST.find(t => t.id === match.away);
+                const res = roundResults.find(r => r.home === h.id && r.away === a.id) || { home: h.id, away: a.id, hs: '', as: '' };
+
+                const row = document.createElement('div');
+                row.className = "bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-2";
+                row.innerHTML = `
+                    <div class="text-xs font-bold w-[38%] truncate text-right text-slate-800">${h.name}</div>
+                    <div class="flex items-center gap-1 w-[24%] justify-center">
+                        <input type="number" min="0" data-home="${h.id}" data-away="${a.id}" class="hs-input w-10 bg-white border border-slate-300 rounded text-center text-xs font-bold py-1 text-slate-800 focus:outline-none focus:border-red-600" value="${res.hs !== undefined ? res.hs : ''}">
+                        <span class="text-slate-400">-</span>
+                        <input type="number" min="0" data-home="${h.id}" data-away="${a.id}" class="as-input w-10 bg-white border border-slate-300 rounded text-center text-xs font-bold py-1 text-slate-800 focus:outline-none focus:border-red-600" value="${res.as !== undefined ? res.as : ''}">
+                    </div>
+                    <div class="text-xs font-bold w-[38%] truncate text-slate-800">${a.name}</div>
+                `;
+                container.appendChild(row);
+            });
+        };
+
+        window.saveAllResults = async function() {
+            const roundIdx = parseInt(document.getElementById('admin-round-select').value);
+            const container = document.getElementById('admin-matches-container');
+            const hInputs = container.querySelectorAll('.hs-input');
+            const aInputs = container.querySelectorAll('.as-input');
+
+            const newRoundResults = [];
+            for(let i=0; i<hInputs.length; i++) {
+                const home = hInputs[i].getAttribute('data-home');
+                const away = hInputs[i].getAttribute('data-away');
+                const hsVal = hInputs[i].value;
+                const asVal = aInputs[i].value;
+                newRoundResults.push({
+                    home: home,
+                    away: away,
+                    hs: hsVal !== "" ? parseInt(hsVal) : "",
+                    as: asVal !== "" ? parseInt(asVal) : ""
+                });
+            }
+
+            RESULTS[roundIdx] = newRoundResults;
+            processAllResults();
+            renderFixtures();
+            updateStandingsTable();
+
+            try {
+                const docRef = doc(db, 'tournament_results', 'premier_league_12_team');
+                await setDoc(docRef, { results: RESULTS });
+                closeAdminModal();
+            } catch(err) {
+                console.error("Error saving to Firebase:", err);
+            }
+        };
+    </script>
+</body>
+</html>
