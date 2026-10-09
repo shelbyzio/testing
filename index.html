@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Spain La Liga - Tournament Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare .com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
@@ -16,7 +16,6 @@
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
-    <!-- Header with Clean White & Bold Red Theme -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-3 py-3 flex flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2">
@@ -52,7 +51,7 @@
                 <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <i class="fa-solid fa-cloud text-sm"></i>
                 </div>
-                <div><span class="text-[8px] text-slate-400 block uppercase font-semibold">Database</span><span class="text-xs font-bold text-emerald-600" id="sync-status">Connected</span></div>
+                <div><span class="text-[8px] text-slate-400 block uppercase font-semibold">Database</span><span class="text-xs font-bold text-emerald-600" id="sync-status">Local / Connected</span></div>
             </div>
         </div>
 
@@ -137,79 +136,89 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
+        // Optional Firebase configuration (if invalid keys are supplied, fallback mode activates seamlessly)
         const firebaseConfig = {
-            apiKey: "AIzaSyCG8xdfNHBFKo1VlfBYCYZTP-8vid3R97I",
-            authDomain: "superepl.firebaseapp.com",
-            projectId: "superepl",
-            storageBucket: "superepl.firebasestorage.app",
-            messagingSenderId: "885676848744",
-            appId: "1:885676848744:web:ac9f912c3f06ecd3c2eddd",
-            measurementId: "G-FNDM2JKVH9"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
 
         const TEAMS_LIST = [
            { id: "BAR", name: "Barcelona", logo: "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg", telegram: "https://t.me/Profit_Zio" },
-{ id: "RMA", name: "Real Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg", telegram: "https://t.me/Heropool" },
-{ id: "ATM", name: "Atletico Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2024_logo.svg", telegram: "https://t.me/MESSi_10FC" },
-{ id: "VIL", name: "Villarreal", logo: "https://upload.wikimedia.org/wikipedia/en/7/70/Villarreal_CF_logo.svg", telegram: "https://t.me/HainnH20" },
-{ id: "BET", name: "Real Betis", logo: "https://upload.wikimedia.org/wikipedia/en/1/13/Real_Betis_Balompi%C3%A9.svg", telegram: "https://t.me/Junnpe" },
-{ id: "RSO", name: "Real Sociedad", logo: "https://upload.wikimedia.org/wikipedia/en/f/f1/Real_Sociedad_logo.svg", telegram: "https://t.me/KeeRan_kawor" },
-{ id: "GET", name: "Getafe", logo: "https://upload.wikimedia.org/wikipedia/en/d/dc/Getafe_CF.svg", telegram: "https://t.me/zores11" },
-{ id: "SEV", name: "Sevilla", logo: "https://upload.wikimedia.org/wikipedia/en/3/3b/Sevilla_FC_logo.svg", telegram: "https://t.me/" },
-{ id: "ALA", name: "Alaves", logo: "https://upload.wikimedia.org/wikipedia/en/2/2e/Deportivo_Alav%C3%A9s_logo_%282020%29.svg", telegram: "https://t.me/waiyan1212020" },
-{ id: "ATH", name: "Athletic Bilbao", logo: "https://upload.wikimedia.org/wikipedia/en/9/98/Athletic_Club_Bilbao_logo.svg", telegram: "https://t.me/BWhite099" },
-{ id: "GIR", name: "Girona", logo: "https://upload.wikimedia.org/wikipedia/en/9/90/Girona_FC_Logo.svg", telegram: "https://t.me/APH_Design_Studio_97" },
-{ id: "VAL", name: "Valencia", logo: "https://upload.wikimedia.org/wikipedia/en/c/ce/Valencia_CF_logo_%282009%29.svg", telegram: "https://t.me/agust_HML" }
-
+           { id: "RMA", name: "Real Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg", telegram: "https://t.me/Heropool" },
+           { id: "ATM", name: "Atletico Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2024_logo.svg", telegram: "https://t.me/MESSi_10FC" },
+           { id: "VIL", name: "Villarreal", logo: "https://upload.wikimedia.org/wikipedia/en/7/70/Villarreal_CF_logo.svg", telegram: "https://t.me/HainnH20" },
+           { id: "BET", name: "Real Betis", logo: "https://upload.wikimedia.org/wikipedia/en/1/13/Real_Betis_Balompi%C3%A9.svg", telegram: "https://t.me/Junnpe" },
+           { id: "RSO", name: "Real Sociedad", logo: "https://upload.wikimedia.org/wikipedia/en/f/f1/Real_Sociedad_logo.svg", telegram: "https://t.me/KeeRan_kawor" },
+           { id: "GET", name: "Getafe", logo: "https://upload.wikimedia.org/wikipedia/en/d/dc/Getafe_CF.svg", telegram: "https://t.me/zores11" },
+           { id: "SEV", name: "Sevilla", logo: "https://upload.wikimedia.org/wikipedia/en/3/3b/Sevilla_FC_logo.svg", telegram: "https://t.me/" },
+           { id: "ALA", name: "Alaves", logo: "https://upload.wikimedia.org/wikipedia/en/2/2e/Deportivo_Alav%C3%A9s_logo_%282020%29.svg", telegram: "https://t.me/waiyan1212020" },
+           { id: "ATH", name: "Athletic Bilbao", logo: "https://upload.wikimedia.org/wikipedia/en/9/98/Athletic_Club_Bilbao_logo.svg", telegram: "https://t.me/BWhite099" },
+           { id: "GIR", name: "Girona", logo: "https://upload.wikimedia.org/wikipedia/en/9/90/Girona_FC_Logo.svg", telegram: "https://t.me/APH_Design_Studio_97" },
+           { id: "VAL", name: "Valencia", logo: "https://upload.wikimedia.org/wikipedia/en/c/ce/Valencia_CF_logo_%282009%29.svg", telegram: "https://t.me/agust_HML" }
         ];
 
         let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
         let standingsData = [];
-        let RESULTS = {};
+        
+        // Default Round 1 Results as requested
+        let RESULTS = {
+            0: [
+                { home: "BAR", away: "VAL", hs: 4, as: 0 },
+                { home: "RMA", away: "GIR", hs: 2, as: 5 },
+                { home: "ATM", away: "ATH", hs: 1, as: 7 },
+                { home: "VIL", away: "ALA", hs: 4, as: 1 },
+                { home: "BET", away: "SEV", hs: 6, as: 3 },
+                { home: "RSO", away: "GET", hs: 5, as: 1 }
+            ]
+        };
 
         window.onload = async function() {
             generateFixedRoundRobinFixtures();
             renderMatchdaySelector();
             
+            let firebaseInitialized = false;
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    try {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } catch (customErr) {
-                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", customErr);
+                if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+                    const app = initializeApp(firebaseConfig);
+                    const auth = getAuth(app);
+                    const db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        try {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } catch (customErr) {
+                            await signInAnonymously(auth);
+                        }
+                    } else {
                         await signInAnonymously(auth);
                     }
-                } else {
-                    await signInAnonymously(auth);
+                    
+                    const docRef = doc(db, 'tournament_results', 'premier_league_12_team');
+                    onSnapshot(docRef, (docSnap) => {
+                        if (docSnap.exists() && docSnap.data().results) {
+                            const remoteRes = docSnap.data().results;
+                            if (remoteRes && Object.keys(remoteRes).length > 0) {
+                                RESULTS = remoteRes;
+                            }
+                        }
+                        processAllResults();
+                        renderFixtures();
+                        updateStandingsTable();
+                    }, (error) => {
+                        console.warn("Firestore listener warning, using local results:", error);
+                    });
+                    firebaseInitialized = true;
                 }
-                
-                const docRef = doc(db, 'tournament_results', 'premier_league_12_team');
-                
-                onSnapshot(docRef, (docSnap) => {
-                    if (docSnap.exists() && docSnap.data().results) {
-                        RESULTS = docSnap.data().results;
-                    } else {
-                        RESULTS = {};
-                        setDoc(docRef, { results: RESULTS }).catch(console.error);
-                    }
-                    processAllResults();
-                    renderFixtures();
-                    updateStandingsTable();
-                }, (error) => {
-                    console.error("Firestore listener error:", error);
-                    RESULTS = {};
-                    processAllResults();
-                    renderFixtures();
-                    updateStandingsTable();
-                });
-
             } catch (e) {
-                console.error("Auth/Init error:", e);
-                RESULTS = {};
+                console.warn("Firebase not configured or offline, running in local mode:", e);
+                document.getElementById('sync-status').innerText = "Local Mode";
+            }
+
+            if (!firebaseInitialized) {
                 processAllResults();
                 renderFixtures();
                 updateStandingsTable();
@@ -387,7 +396,7 @@
         };
 
         window.saveAllResults = async function() {
-            const roundIdx = parseInt(document.getElementById('admin-round-select').value);
+            const roundIdx = parseInt(document.getElementById('admin-round-select .value') || document.getElementById('admin-round-select').value);
             const container = document.getElementById('admin-matches-container');
             const hInputs = container.querySelectorAll('.hs-input');
             const aInputs = container.querySelectorAll('.as-input');
@@ -410,14 +419,7 @@
             processAllResults();
             renderFixtures();
             updateStandingsTable();
-
-            try {
-                const docRef = doc(db, 'tournament_results', 'premier_league_12_team');
-                await setDoc(docRef, { results: RESULTS });
-                closeAdminModal();
-            } catch(err) {
-                console.error("Error saving to Firebase:", err);
-            }
+            closeAdminModal();
         };
     </script>
 </body>
