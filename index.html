@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Spain La Liga - Tournament Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare .com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
@@ -136,7 +136,6 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
-        // Optional Firebase configuration (if invalid keys are supplied, fallback mode activates seamlessly)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -164,7 +163,6 @@
         let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
         let standingsData = [];
         
-        // Default Round 1 Results as requested
         let RESULTS = {
             0: [
                 { home: "BAR", away: "VAL", hs: 4, as: 0 },
@@ -173,6 +171,14 @@
                 { home: "VIL", away: "ALA", hs: 4, as: 1 },
                 { home: "BET", away: "SEV", hs: 6, as: 3 },
                 { home: "RSO", away: "GET", hs: 5, as: 1 }
+            ],
+            1: [
+                { home: "RMA", away: "VAL", hs: "", as: "" },
+                { home: "ATM", away: "BAR", hs: 0, as: 4 },
+                { home: "VIL", away: "GIR", hs: 5, as: 1 },
+                { home: "BET", away: "ATH", hs: "", as: "" },
+                { home: "RSO", away: "ALA", hs: 10, as: 2 },
+                { home: "GET", away: "SEV", hs: "", as: "" }
             ]
         };
 
@@ -396,7 +402,7 @@
         };
 
         window.saveAllResults = async function() {
-            const roundIdx = parseInt(document.getElementById('admin-round-select .value') || document.getElementById('admin-round-select').value);
+            const roundIdx = parseInt(document.getElementById('admin-round-select').value);
             const container = document.getElementById('admin-matches-container');
             const hInputs = container.querySelectorAll('.hs-input');
             const aInputs = container.querySelectorAll('.as-input');
