@@ -163,6 +163,7 @@
         let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
         let standingsData = [];
         
+        // Updated results for Rounds 1, 2, 3, and 4 as requested
         let RESULTS = {
             0: [
                 { home: "BAR", away: "VAL", hs: 4, as: 0 },
@@ -173,20 +174,28 @@
                 { home: "RSO", away: "GET", hs: 5, as: 1 }
             ],
             1: [
-                { home: "RMA", away: "VAL", hs: "", as: "" },
+                { home: "RMA", away: "VAL", hs: 0, as: 3 },
                 { home: "ATM", away: "BAR", hs: 0, as: 4 },
                 { home: "VIL", away: "GIR", hs: 5, as: 1 },
-                { home: "BET", away: "ATH", hs: "", as: "" },
+                { home: "BET", away: "ATH", hs: 1, as: 7 },
                 { home: "RSO", away: "ALA", hs: 10, as: 2 },
-                { home: "GET", away: "SEV", hs: "", as: "" }
+                { home: "GET", away: "SEV", hs: 0, as: 2 }
             ],
             2: [
+                { home: "SEV", away: "ALA", hs: 8, as: 0 },
+                { home: "VIL", away: "RMA", hs: 3, as: 0 },
                 { home: "ATM", away: "VAL", hs: 6, as: 0 },
-                { home: "VIL", away: "RMA", hs: "", as: "" },
                 { home: "BET", away: "BAR", hs: 4, as: 2 },
                 { home: "RSO", away: "GIR", hs: 6, as: 2 },
-                { home: "GET", away: "ATH", hs: 0, as: 7 },
-                { home: "SEV", away: "ALA", hs: 0, as: 3 }
+                { home: "GET", away: "ATH", hs: 0, as: 7 }
+            ],
+            3: [
+                { home: "VIL", away: "VAL", hs: 8, as: 2 },
+                { home: "BET", away: "ATM", hs: 10, as: 0 },
+                { home: "RSO", away: "RMA", hs: 3, as: 0 },
+                { home: "GET", away: "BAR", hs: 6, as: 2 },
+                { home: "SEV", away: "GIR", hs: 2, as: 4 },
+                { home: "ALA", away: "ATH", hs: 0, as: 2 }
             ]
         };
 
