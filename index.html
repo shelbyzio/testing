@@ -62,7 +62,7 @@
             </div>
 
             <div class="flex justify-between items-center bg-white border-l-4 border-red-600 p-3 rounded-r-xl shadow-sm">
-                <h2 class="text-sm font-black text-slate-800" id="fixture-round-title">ROUND 1</h2>
+                <h2 class="text-sm font-black text-slate-800" id="fixture-round-title">ROUND 10</h2>
                 <div class="flex gap-1">
                     <button onclick="changeMatchday(-1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                     <button onclick="changeMatchday(1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-right text-xs"></i></button>
@@ -160,7 +160,7 @@
            { id: "VAL", name: "Valencia", logo: "https://upload.wikimedia.org/wikipedia/en/c/ce/Valencia_CF_logo_%282009%29.svg", telegram: "https://t.me/agust_HML" }
         ];
 
-        let fixtures = [], currentViewingMatchday = 0, TOTAL_ROUNDS = 11;
+        let fixtures = [], currentViewingMatchday = 9, TOTAL_ROUNDS = 11;
         let standingsData = [];
         
         let RESULTS = {
@@ -227,6 +227,22 @@
                 { home: "GIR", away: "BET", hs: 3, as: 2 },
                 { home: "BAR", away: "VIL", hs: 3, as: 11 },
                 { home: "RMA", away: "ATM", hs: 0, as: 3 }
+            ],
+            8: [
+                { home: "ALA", away: "VAL", hs: 3, as: 0 },
+                { home: "ATH", away: "SEV", hs: 0, as: 3 },
+                { home: "GIR", away: "GET", hs: 8, as: 2 },
+                { home: "BAR", away: "RSO", hs: 3, as: 9 },
+                { home: "RMA", away: "BET", hs: 0, as: 3 },
+                { home: "ATM", away: "VIL", hs: 2, as: 9 }
+            ],
+            9: [
+                { home: "ATH", away: "VAL", hs: 3, as: 0 },
+                { home: "GIR", away: "ALA", hs: 3, as: 4 },
+                { home: "BAR", away: "SEV", hs: "", as: "" },
+                { home: "RMA", away: "GET", hs: 0, as: 3 },
+                { home: "ATM", away: "RSO", hs: 1, as: 13 },
+                { home: "VIL", away: "BET", hs: 6, as: 2 }
             ]
         };
 
@@ -308,7 +324,8 @@
             for (let round = 0; round < numTeams - 1; round++) {
                 const roundMatches = [];
                 for (let i = 0; i < numTeams / 2; i++) {
-                    const home = (round + i) % (numTeams - 1), away = (i === 0) ? numTeams - 1 : (numTeams - 1 - i + round) % (numTeams - 1);
+                    const home = (round + i) % (numTeams - 1);
+                    const away = (i === 0) ? numTeams - 1 : (numTeams - 1 - i + round) % (numTeams - 1);
                     roundMatches.push({ home: TEAMS_LIST[home].id, away: TEAMS_LIST[away].id });
                 }
                 fixtures.push(roundMatches);
@@ -320,7 +337,7 @@
             container.innerHTML = '';
             for (let r = 0; r < TOTAL_ROUNDS; r++) {
                 const btn = document.createElement('button');
-                btn.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${r === 0 ? 'bg-red-600 text-white border-red-600' : 'bg-slate-50 text-slate-600 border-slate-200'}`;
+                btn.className = `flex-shrink-0 px-3 py-1 rounded-lg font-bold text-[10px] border ${r === currentViewingMatchday ? 'bg-red-600 text-white border-red-600' : 'bg-slate-50 text-slate-600 border-slate-200'}`;
                 btn.innerText = `R${r + 1}`;
                 btn.onclick = () => { 
                     currentViewingMatchday = r; 
@@ -338,7 +355,7 @@
             if(!container) return;
             container.innerHTML = '';
             document.getElementById('fixture-round-title').innerText = `ROUND ${currentViewingMatchday + 1}`;
-            const roundData = fixtures[currentViewingMatchday];
+            const roundData = fixtures[currentViewingMatchday] || [];
             const roundResults = RESULTS[currentViewingMatchday] || [];
             
             roundData.forEach(match => {
@@ -427,7 +444,7 @@
             const roundIdx = parseInt(document.getElementById('admin-round-select').value);
             const container = document.getElementById('admin-matches-container');
             container.innerHTML = '';
-            const roundData = fixtures[roundIdx];
+            const roundData = fixtures[roundIdx] || [];
             const roundResults = RESULTS[roundIdx] || [];
 
             roundData.forEach((match) => {
