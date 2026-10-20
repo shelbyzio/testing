@@ -62,7 +62,7 @@
             </div>
 
             <div class="flex justify-between items-center bg-white border-l-4 border-red-600 p-3 rounded-r-xl shadow-sm">
-                <h2 class="text-sm font-black text-slate-800" id="fixture-round-title">ROUND 10</h2>
+                <h2 class="text-sm font-black text-slate-800" id="fixture-round-title">ROUND 11</h2>
                 <div class="flex gap-1">
                     <button onclick="changeMatchday(-1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                     <button onclick="changeMatchday(1)" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-lg text-red-600 transition flex items-center justify-center"><i class="fa-solid fa-chevron-right text-xs"></i></button>
@@ -160,7 +160,7 @@
            { id: "VAL", name: "Valencia", logo: "https://upload.wikimedia.org/wikipedia/en/c/ce/Valencia_CF_logo_%282009%29.svg", telegram: "https://t.me/agust_HML" }
         ];
 
-        let fixtures = [], currentViewingMatchday = 9, TOTAL_ROUNDS = 11;
+        let fixtures = [], currentViewingMatchday = 10, TOTAL_ROUNDS = 11;
         let standingsData = [];
         
         let RESULTS = {
@@ -243,6 +243,14 @@
                 { home: "RMA", away: "GET", hs: 0, as: 3 },
                 { home: "ATM", away: "RSO", hs: 1, as: 13 },
                 { home: "VIL", away: "BET", hs: 6, as: 2 }
+            ],
+            10: [
+                { home: "GIR", away: "VAL", hs: 11, as: 1 },
+                { home: "BAR", away: "ATH", hs: "", as: "" },
+                { home: "RMA", away: "ALA", hs: 0, as: 3 },
+                { home: "ATM", away: "SEV", hs: 3, as: 0 },
+                { home: "VIL", away: "GET", hs: 12, as: 2 },
+                { home: "BET", away: "RSO", hs: 5, as: 7 }
             ]
         };
 
